@@ -246,7 +246,7 @@ footer {visibility: hidden}
 """
 
 # Gradio interface
-with gr.Blocks(css=css, fill_height=True, title="CytoRAG: Cell Biology with Rag"
+with gr.Blocks(css=css, fill_height=True, title="CytoRAG: Cell Biology with Rag"):
     gr.Markdown("# CytoRAG: Cell Biology Copilot with LlamaIndex, Pinecone, Arize Phoenix on Vessl")
 
     gr.Markdown("""

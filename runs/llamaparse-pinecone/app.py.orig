@@ -14,11 +14,11 @@ from pinecone import Pinecone, ServerlessSpec
 pc = None  # Pinecone client
 openailike_client = None  # OpenAILike client
 parser = None  # LlamaParse client
-system_prompt_template = "You are a helpful AI assistant specialized in biochemistry, cell biology and biomanufacturing. Use the following pieces of context to answer the human's question. If you don't know the answer, just say that you can't find the answer from the context, don't try to make up an answer. Context: {context}"
+system_prompt_template = "You are a helpful AI assistant. Use the following pieces of context to answer the human's question. If you don't know the answer, just say that you can't find the answer from the context, don't try to make up an answer. Context: {context}"
 uploaded_files = []
 
 # Parse command-line arguments
-parser = argparse.ArgumentParser(description="Chat-with-document CytoRAG")
+parser = argparse.ArgumentParser(description="Chat-with-document demo")
 parser.add_argument("--llama-parse-api-key", required=False, help="LlamaCloud API Key")
 parser.add_argument("--pinecone-api-key", required=False, help="Pinecone API Key")
 parser.add_argument("--openai-api-base", default="https://api.openai.com/v1", help="Base URL of OpenAI-compatible API")
@@ -295,12 +295,12 @@ with gr.Blocks(css=css, fill_height=True, title="🦙 Chat-with-document demo wi
             pinecone_region = gr.Textbox(label="Pinecone Region", value=args.pinecone_region)
             pinecone_index_name = gr.Textbox(label="Pinecone Index Name", value=args.pinecone_index_name)
 
-        #with gr.Group():
-            #gr.Markdown("### 🧠 LLM Settings\n\t* For OpenAI: Obtain an API key from [OpenAI's API Key page](https://platform.openai.com/api-keys). For OpenAI-compatible endpoints (e.g., vLLM, TGI), update the API Base URL and key accordingly.")
-            #openai_api_base = gr.Textbox(label="OpenAI-compatible API Base URL", value=args.openai_api_base)
-            #openai_api_model = gr.Textbox(label="LLMs to use", value=args.openai_api_model)
-            #openai_api_key = gr.Textbox(label="OpenAI-compatible API Key", value=args.openai_api_key)
-            #prompt_input = gr.Textbox(label="Prompt Template", value=system_prompt_template, lines=5)
+        with gr.Group():
+            gr.Markdown("### 🧠 LLM Settings\n\t* For OpenAI: Obtain an API key from [OpenAI's API Key page](https://platform.openai.com/api-keys). For OpenAI-compatible endpoints (e.g., vLLM, TGI), update the API Base URL and key accordingly.")
+            openai_api_base = gr.Textbox(label="OpenAI-compatible API Base URL", value=args.openai_api_base)
+            openai_api_model = gr.Textbox(label="LLMs to use", value=args.openai_api_model)
+            openai_api_key = gr.Textbox(label="OpenAI-compatible API Key", value=args.openai_api_key)
+            prompt_input = gr.Textbox(label="Prompt Template", value=system_prompt_template, lines=5)
 
         update_settings_button = gr.Button("Update")
         update_settings_error_msg = gr.Textbox(label="Error Message", visible=False, value="", lines=10)
@@ -325,9 +325,9 @@ with gr.Blocks(css=css, fill_height=True, title="🦙 Chat-with-document demo wi
     update_settings_button.click(
         start_update, outputs=[update_settings_button]
     ).then(
-        #update_settings,
-        #inputs=[llama_parse_api_key, pinecone_api_key, pinecone_region, pinecone_index_name, openai_api_base, openai_api_model, openai_api_key, prompt_input],
-        #outputs=[update_settings_button, update_settings_error_msg]
+        update_settings,
+        inputs=[llama_parse_api_key, pinecone_api_key, pinecone_region, pinecone_index_name, openai_api_base, openai_api_model, openai_api_key, prompt_input],
+        outputs=[update_settings_button, update_settings_error_msg]
     )
 
 if __name__ == "__main__":
